@@ -3,21 +3,22 @@
 # Importiert die notwendigen Bibliotheken
 import machine
 import utime
-import _random
+import random
 
-# Erstellt Pin-Objekte für die LEDs
-leds = [machine.Pin(i, machine.Pin.OUT) for i in range(25, 32)]
+# Erstellt eine Liste von Pin-Objekten für die LEDs
+led_pins = [21, 22, 24, 25, 26, 27, 29]
+leds = [machine.Pin(pin, machine.Pin.OUT) for pin in led_pins]
 
 # Erstellt ein Pin-Objekt für den Knopf
-button = machine.Pin(15, machine.Pin.IN, machine.Pin.PULL_UP)
+button = machine.Pin(20, machine.Pin.IN, machine.Pin.PULL_DOWN)
 
 # Definiert, welche LEDs für jede Zahl leuchten sollen
 dice = {
     1: [3],
-    2: [0, 5],
-    3: [0, 3, 5],
-    4: [0, 1, 4, 5],
-    5: [0, 1, 3, 4, 5],
+    2: [0, 6],
+    3: [0, 3, 6],
+    4: [0, 2, 4, 6],
+    5: [0, 2, 3, 4, 6],
     6: [0, 1, 2, 4, 5, 6]
 }
 
@@ -38,38 +39,42 @@ def dice_animation():
     for _ in range(10):
         for i in range(6):
             display_number(i + 1)
-            utime.sleep(0.1)
+            utime.sleep(0.5)
 
+def roll_dice_and_display():
+    # Generiert eine zufällige Zahl von 1 bis 6
+    n = random.randint(1, 6)
+    
+    # Zeigt die Zahl auf den LEDs an
+    display_number(n)
+
+def check_button_and_roll(pin=None):
+    # Aktualisiert die Zeit des letzten Tastendrucks
+    global last_button_press
+    last_button_press = utime.ticks_ms()
+    
+    # Führt die Würfelanimation aus und zeigt eine zufällige Zahl an
+    dice_animation()
+    roll_dice_and_display()
+
+def sleep_if_needed():
+    print("Going to sleep in: " + str(10000-utime.ticks_diff(utime.ticks_ms(), last_button_press)))
+    # Überprüft, ob seit dem letzten Tastendruck 10 Sekunden vergangen sind
+    if utime.ticks_diff(utime.ticks_ms(), last_button_press) > 10000:
+        # Schaltet alle LEDs aus
+        for led in leds:
+            led.value(0)
+        
+        # Versetzt den Pico in den Ruhemodus und setzt Aufwachknopf
+        button.irq(trigger=machine.Pin.IRQ_FALLING, wake=machine.LIGHTSLEEP)
+        machine.lightsleep()
+
+# Setzt den ISR für den Knopf
+button.irq(trigger=machine.Pin.IRQ_RISING, handler=check_button_and_roll)
 last_button_press = utime.ticks_ms()
 
 while True:
-    # Überprüft, ob der Knopf gedrückt wurde
-    if button.value() == 0:
-        # Aktualisiert die Zeit des letzten Tastendrucks
-        last_button_press = utime.ticks_ms()
-        
-        # Führt die Würfelanimation aus
-        dice_animation()
-        
-        # Wartet, bis der Knopf losgelassen wurde
-        while button.value() == 0:
-            pass
-        
-        # Generiert eine zufällige Zahl von 1 bis 6
-        n = _random.randint(1, 6)
-        
-        # Zeigtdie Zahl auf den LEDs an
-        display_number(n)
-        
-        # Wartet eine Sekunde, bevor die nächste Zahl anzeiget wird
-        utime.sleep(1)
+    if button.value() == 1:
+        check_button_and_roll()
     else:
-        # Überprüft, ob seit dem letzten Tastendruck 10 Sekunden vergangen sind
-        if utime.ticks_diff(utime.ticks_ms(), last_button_press) > 10000:
-            # Schaltet alle LEDs aus
-            for led in leds:
-                led.value(0)
-            
-            # Versetzt den Pico in den Ruhemodus
-            machine.lightsleep(10000)
-            button.irq(trigger=machine.Pin.IRQ_FALLING, wake=machine.DEEPSLEEP)
+        sleep_if_needed()
