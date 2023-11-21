@@ -65,10 +65,11 @@ def sleep_if_needed():
         for led in leds:
             led.value(0)
         
+        # Aktuell ist KEINE Möglichkeit bekannt, den Pico wieder aufzuwecken daher keine Sleep-Funktion
         # Versetzt den Pico in den Ruhemodus und setzt Aufwachknopf
-        button.irq(trigger=machine.Pin.IRQ_FALLING, wake=machine.SLEEP)
-        machine.lightsleep()
-        button.irq(trigger=machine.Pin.IRQ_RISING, handler=check_button_and_roll)
+        #button.irq(trigger=machine.Pin.IRQ_FALLING, wake=machine.SLEEP)
+        #machine.lightsleep()
+        #button.irq(trigger=machine.Pin.IRQ_RISING, handler=check_button_and_roll)
 
 # Setzt den ISR für den Knopf
 button.irq(trigger=machine.Pin.IRQ_RISING, handler=check_button_and_roll)
