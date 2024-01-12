@@ -1,6 +1,8 @@
 # Projektbeschreibung
 
-Dieses Projekt steuert eine LED-Würfelanzeige mit einem Raspberry Pi Pico. 
+Dieses Projekt steuert eine LED-Würfelanzeige mit einem Raspberry Pi Pico.
+Der Workaround wurde freundlicherweise von tomjorquera erstellt. Er ist sehr experimentell. Weitere Informationen auf der verlinkten Seite im Reiter "Verwendete Bibliotheken". 
+
 
 ## Verwendete Bibliotheken
 
