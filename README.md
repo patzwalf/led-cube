@@ -7,6 +7,8 @@ Dieses Projekt steuert eine LED-Würfelanzeige mit einem Raspberry Pi Pico.
 - `machine`
 - `utime`
 - `_random`
+- [`lowpower`](https://github.com/tomjorquera/pico-micropython-lowpower-workaround)
+- `dice_library` 
 
 ## Anschluss der LEDs
 
@@ -14,9 +16,9 @@ Die LEDs sind in aufsteigender Reihenfolge von 0 bis 6 an den PINs 21, 22, 24-27
 
 ## Layout der LEDs
 
-2   6
-1 3 5
-0   4
+2___________6  
+1_____3_____5  
+0___________4  
 
 ## GPIO Pins
 
