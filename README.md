@@ -18,7 +18,14 @@ Ein paar Worte zur dice_library.py:
 Hier werden alle wichtigen Funktionen ausgelagert die für den Würfel gebraucht werden.  
 Die Funktionen sind mit ausführlichem Doc im Code erklärt sowie alle nötigen Vorbedingungen und Fallstricke. Daher schaut Ihn euch vorher aufmerksam an. 
 
-## Anschluss der LEDs
+## Hardware Part
+### GPIO Pins und Beispielaufbau
+
+Die GPIO Pins sind in der folgenden Grafik zu erkennen: ![Raspberry Pi Pico Pinout](https://www.raspberrypi.com/documentation/microcontrollers/images/picow-pinout.svg)  
+Ein möglicher Aufbau für den Würfel ist im Repo zu finden:  
+![Beispielaufbau](https://github.com/patzwalf/led-cube/blob/5a1680e16874a2c6c05078b42781f48f2e8cc4b3/Verkabelung%20LEDCube.JPG)
+  
+### Anschluss der LEDs
 
 Die LEDs sind in aufsteigender Reihenfolge von 0 bis 6 an den PINs 21, 22, 24-27, 29 angeschlossen und der Knopf ist an Pin 20 angeschlossen.  
 Der Code kann aber an euer Setup einfach angepasst werden um variabel viele LEDs zu verwenden. 
@@ -28,13 +35,8 @@ Der Code kann aber an euer Setup einfach angepasst werden um variabel viele LEDs
 2___________6  
 1_____3_____5  
 0___________4  
-
-### GPIO Pins und Beispielaufbau
-
-Die GPIO Pins sind in der folgenden Grafik zu erkennen: ![Raspberry Pi Pico Pinout](https://www.raspberrypi.com/documentation/microcontrollers/images/picow-pinout.svg)  
-Ein möglicher Aufbau für den Würfel ist im Repo zu finden:  
-![Beispielaufbau](https://github.com/patzwalf/led-cube/blob/5a1680e16874a2c6c05078b42781f48f2e8cc4b3/Verkabelung%20LEDCube.JPG)
-
+  
+## Software Part
 ### MikroPython installieren
 1) Ladet euch die aktuellste [MikroPython Version](https://micropython.org/download/RPI_PICO_W/) runter und speichert die .uf2 Datei.
 2) Währed Ihr den Pico an den USB Anschluss eures Rechners anschließt haltet den Bootselect (BOOTSEL) Knopf gedrückt.
