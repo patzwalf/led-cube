@@ -13,8 +13,10 @@ leds = [machine.Pin(pin, machine.Pin.OUT) for pin in led_pins]
 # Erstellt ein Pin-Objekt für den Knopf
 button = machine.Pin(15, machine.Pin.IN, machine.Pin.PULL_DOWN)
 
-# Initialisiert die Variable mit dem Startwert
-global last_button_press
+#Erstellt DORMANT_PIN
+DORMANT_PIN = 15
+
+# Initialisiert den Zeitmesser mit dem Startwert
 last_button_press = utime.ticks_ms()
 
 # Definiert, welche LEDs für jede Zahl leuchten sollen
@@ -27,20 +29,16 @@ dice = {
     6: [0, 1, 2, 4, 5, 6]
 }
 
-def sleep_if_needed():
-    global last_button_press
-    # Überprüft, ob seit dem letzten Tastendruck 5 Sekunden vergangen sind
-    if utime.ticks_diff(utime.ticks_ms(), last_button_press) > 5000:
-        # Schaltet alle LEDs aus
-        for led in leds:
-            led.value(0)
-
-
 while True:
     if button.value() == 1:
         utime.sleep(0.02)
         last_button_press = utime.ticks_ms()
-        dice_animation(maxDisplayableNumber, leds, dice)
-        roll_dice_and_display(maxDisplayableNumber, leds, dice)
-    else:
-        sleep_if_needed()
+        dice_library.dice_animation(6, leds, dice)
+        dice_library.roll_dice_and_display(6, leds, dice)
+    elif utime.ticks_diff(utime.ticks_ms(), last_button_press) > 20000:
+        # Überprüft, ob seit dem letzten Tastendruck 20 Sekunden vergangen sind
+        # Schaltet alle LEDs aus
+        for led in leds:
+            led.value(0)
+        print("going dormant")
+        lowpower.dormant_with_modes({DORMANT_PIN: lowpower.EDGE_HIGH})
