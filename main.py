@@ -3,7 +3,8 @@
 # Importiert die notwendigen Bibliotheken
 import machine
 import utime
-import random
+import dice_library
+import lowpower
 
 # Erstellt eine Liste von Pin-Objekten für die LEDs
 led_pins = [16, 17, 18, 19, 20, 21, 22]
@@ -26,40 +27,6 @@ dice = {
     6: [0, 1, 2, 4, 5, 6]
 }
 
-def display_number(n):
-    # Stellt sicher, dass n zwischen 1 und 6 liegt
-    n = max(1, min(n, 6))
-    
-    # Schaltet alle LEDs aus
-    for led in leds:
-        led.value(0)
-    
-    # Schaltet die entsprechenden LEDs ein
-    for i in dice[n]:
-        leds[i].value(1)
-
-def dice_animation():
-    # Führt die Würfelanimation aus
-    for i in range(6):
-        display_number(i + 1)
-        utime.sleep(0.3)
-
-def roll_dice_and_display():
-    # Generiert eine zufällige Zahl von 1 bis 6
-    n = random.randint(1, 6)
-    
-    # Zeigt die Zahl auf den LEDs an
-    display_number(n)
-
-def check_button_and_roll():
-    # Aktualisiert die Zeit des letzten Tastendrucks
-    global last_button_press 
-    last_button_press = utime.ticks_ms()
-    
-    # Führt die Würfelanimation aus und zeigt eine zufällige Zahl an
-    dice_animation()
-    roll_dice_and_display()
-
 def sleep_if_needed():
     global last_button_press
     # Überprüft, ob seit dem letzten Tastendruck 5 Sekunden vergangen sind
@@ -72,6 +39,8 @@ def sleep_if_needed():
 while True:
     if button.value() == 1:
         utime.sleep(0.02)
-        check_button_and_roll()
+        last_button_press = utime.ticks_ms()
+        dice_animation(maxDisplayableNumber, leds, dice)
+        roll_dice_and_display(maxDisplayableNumber, leds, dice)
     else:
         sleep_if_needed()
