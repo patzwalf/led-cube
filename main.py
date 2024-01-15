@@ -29,6 +29,10 @@ dice = {
     6: [0, 1, 2, 4, 5, 6]
 }
 
+# Startanimation
+dice_library.dice_animation(6, leds, dice)
+
+#Hauptloop
 while True:
     if button.value() == 1:
         utime.sleep(0.02)
