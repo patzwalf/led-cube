@@ -6,8 +6,9 @@ import utime
 import dice_library
 import lowpower
 
+# Für die Linie wird eine LED weniger verwendet
 # Erstellt eine Liste von Pin-Objekten für die LEDs
-led_pins = [16, 17, 18, 19, 20, 21, 22]
+led_pins = [16, 17, 18, 19, 20, 21]
 leds = [machine.Pin(pin, machine.Pin.OUT) for pin in led_pins]
 
 # Erstellt ein Pin-Objekt für den Knopf
@@ -19,14 +20,15 @@ DORMANT_PIN = 15
 # Initialisiert den Zeitmesser mit dem Startwert
 last_button_press = utime.ticks_ms()
 
+# Das Dicitonary wird angepasst um die Linie darzustellen
 # Definiert, welche LEDs für jede Zahl leuchten sollen
 dice = {
-    1: [3],
-    2: [0, 6],
-    3: [0, 3, 6],
-    4: [0, 2, 4, 6],
-    5: [0, 2, 3, 4, 6],
-    6: [0, 1, 2, 4, 5, 6]
+    1: [0],
+    2: [0, 1],
+    3: [0, 1, 2],
+    4: [0, 1, 2, 3],
+    5: [0, 1, 2, 3, 4],
+    6: [0, 1, 2, 3, 4, 5]
 }
 
 # Startanimation
