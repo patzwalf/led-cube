@@ -23,7 +23,6 @@ Funktionen:
 - display_number(n, leds, dice): Zeigt eine bestimmte Zahl auf dem LED-Display an.
 - dice_animation(maxDisplayableNumber, leds, dice): Führt eine Würfelanimation aus, indem sie Zahlen von 1 bis maxDisplayableNumber auf dem LED-Display anzeigt.
 - roll_dice_and_display(maxDisplayableNumber, leds, dice): Generiert eine zufällige Zahl zwischen 1 und maxDisplayableNumber und zeigt sie auf dem LED-Display an.
-- check_button_and_roll(maxDisplayableNumber, leds, dice): Aktualisiert die Zeit des letzten Tastendrucks für den Schlafmodus und führt die Würfelanimation aus und zeigt eine zufällige Zahl an.
 
 Module:
 - utime: Wird verwendet, um Pausen zwischen den Animationen zu erzeugen.
